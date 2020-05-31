@@ -36,7 +36,7 @@ class Boardgameitory {
 
 }
 
-private[db] class BoardgameTypes(tag: Tag) extends Table[BoardgameType](tag, "Genre") {
+private[db] class BoardgameTypes(tag: Tag) extends Table[BoardgameType](tag, "Boardgame") {
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 

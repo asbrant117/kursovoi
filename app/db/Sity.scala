@@ -32,7 +32,7 @@ class SityRepository {
 
 }
 
-private[db] class SityTypes(tag: Tag) extends Table[SityType](tag, "City") {
+private[db] class SityTypes(tag: Tag) extends Table[SityType](tag, "Sity") {
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 

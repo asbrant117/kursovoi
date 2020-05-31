@@ -33,7 +33,7 @@ class LinkTableTypeRepository {
 
 }
 
-private[db] class LinkTableTypes(tag: Tag) extends Table[LinkTableType](tag, "Genre") {
+private[db] class LinkTableTypes(tag: Tag) extends Table[LinkTableType](tag, "LinkTable") {
 
   def id: Rep[Int] = column[Int]("id")
 

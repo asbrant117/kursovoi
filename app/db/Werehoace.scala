@@ -35,7 +35,7 @@ class WarehouseRepository {
 
 }
 
-private[db] class WarehouseTypes(tag: Tag) extends Table[WarehouseType](tag, "Warehouce") {
+private[db] class WarehouseTypes(tag: Tag) extends Table[WarehouseType](tag, "Warehouse") {
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 
