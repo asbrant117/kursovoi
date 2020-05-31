@@ -5,6 +5,11 @@
 
 # An example controller showing a sample home page
 GET        /                      controllers.HomeController.index
+GET        /edit                  controllers.HomeController.edit
+GET        /all                   controllers.HomeController.all
+
+GET        /api/country           controllers.JsonController.country(id: Int)
+POST       /api/country           controllers.JsonController.updateCountry()
 
 GET        /country               controllers.HomeController.country(id: Int)
 GET        /country/update        controllers.HomeController.countryUpdate(id: Int, population: Int)

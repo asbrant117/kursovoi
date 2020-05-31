@@ -1,0 +1,26 @@
+@(profiles: List[Html])
+
+@main("Панель управления") {
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Population</th>
+        <th scope="col">Name</th>
+        <th scope="col">Population</th>
+        <th scope="col">Name</th>
+        <th scope="col">Population</th>
+        <th scope="col">Name</th>
+        <th scope="col">Population</th>
+        <th scope="col">Name</th>
+        <th scope="col">Population</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for(profile <- profiles) {
+      @profile
+    }
+    </tbody>
+</table>
+}
