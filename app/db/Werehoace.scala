@@ -46,7 +46,7 @@ private[db] class WarehouseTypes(tag: Tag) extends Table[WarehouseType](tag, "Wa
   def capacity: Rep[Int] = column[Int]("capacity")
 
 
-  def * : ProvenShape[WarehouseType] = (id, sityId, Warehouse, capacity) <> (WarehouceType.tupled, WarehouceType.unapply) // scalastyle:ignore
+  def * : ProvenShape[WarehouseType] = (id, sityId, Warehouse, capacity) <> (WarehouseType.tupled, WarehouseType.unapply) // scalastyle:ignore
 
 }
 
