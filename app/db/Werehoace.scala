@@ -50,7 +50,7 @@ private[db] class WarehouseTypes(tag: Tag) extends Table[WarehouseType](tag, "Wa
 
 }
 
-
+//dct [jhjij
 
 //  def getdanger(id: Int): Future[UserProfile] =
 //    db.run(
