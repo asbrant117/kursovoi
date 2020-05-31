@@ -5,21 +5,21 @@ import slick.lifted.ProvenShape
 import DB.db
 import scala.concurrent.Future
 
-case class WarehouceType(id: Int,
-                         cityId: Int,
+case class WarehouseType(id: Int,
+                         s: Int,
                          Warehouce: String,
                          capacity: Int,
                         )
 
 
-class WarehouceRepository {
+class WarehouseRepository {
 
-  val GenreQuery: TableQuery[WarehouceTypes] = TableQuery[WarehouceTypes]
+  val GenreQuery: TableQuery[WarehouseTypes] = TableQuery[WarehouseTypes]
 
-  def insert(user: WarehouceType): Future[Int] =
+  def insert(user: WarehouseType): Future[Int] =
     db.run(GenreQuery += user)
 
-  def get(id: Int): Future[Option[WarehouceType]] =
+  def get(id: Int): Future[Option[WarehouseType]] =
     db.run(
       GenreQuery
         .filter { it => it.id === id }
@@ -27,7 +27,7 @@ class WarehouceRepository {
         .result
         .headOption)
 
-  def all(): Future[Seq[WarehouceType]] =
+  def all(): Future[Seq[WarehouseType]] =
     db.run(
       GenreQuery
         .result
@@ -35,18 +35,18 @@ class WarehouceRepository {
 
 }
 
-private[db] class WarehouceTypes(tag: Tag) extends Table[WarehouceType](tag, "Genre") {
+private[db] class WarehouseTypes(tag: Tag) extends Table[WarehouseType](tag, "Warehouce") {
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 
-  def cityId: Rep[Int] = column[Int]("id")
+  def sityId: Rep[Int] = column[Int]("sityId")
 
-  def Warehouce: Rep[String] = column[String]("Name")
+  def Warehouse: Rep[String] = column[String]("Warehouse")
 
-  def capacity: Rep[Int] = column[Int]("id", O.PrimaryKey)
+  def capacity: Rep[Int] = column[Int]("capacity")
 
 
-  def * : ProvenShape[WarehouceType] = (id, cityId, Warehouce, capacity) <> (WarehouceType.tupled, WarehouceType.unapply) // scalastyle:ignore
+  def * : ProvenShape[WarehouseType] = (id, sityId, Warehouse, capacity) <> (WarehouceType.tupled, WarehouceType.unapply) // scalastyle:ignore
 
 }
 

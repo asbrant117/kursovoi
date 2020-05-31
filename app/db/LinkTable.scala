@@ -37,11 +37,11 @@ private[db] class LinkTableTypes(tag: Tag) extends Table[LinkTableType](tag, "Ge
 
   def id: Rep[Int] = column[Int]("id")
 
-  def werehouseId: Rep[Int] = column[Int]("id")
+  def werehouseId: Rep[Int] = column[Int]("werehouseId")
 
-  def number: Rep[Int] = column[Int]("id")
+  def number: Rep[Int] = column[Int]("number")
 
-  def price: Rep[Int] = column[Int]("id")
+  def price: Rep[Int] = column[Int]("price")
 
   def * : ProvenShape[LinkTableType] = (id, werehouseId, number,price) <> (LinkTableType.tupled, LinkTableType.unapply) // scalastyle:ignore
 

@@ -5,18 +5,18 @@ import slick.lifted.ProvenShape
 import DB.db
 import scala.concurrent.Future
 
-case class CityType(id: Int,
+case class SityType(id: Int,
                        genre: String)
 
 
-class GenreRepository {
+class SityRepository {
 
-  val CityQuery: TableQuery[CityTypes] = TableQuery[CityTypes]
+  val CityQuery: TableQuery[SityTypes] = TableQuery[SityTypes]
 
-  def insert(user: CityType): Future[Int] =
+  def insert(user: SityType): Future[Int] =
     db.run(CityQuery += user)
 
-  def get(id: Int): Future[Option[CityType]] =
+  def get(id: Int): Future[Option[SityType]] =
     db.run(
       CityQuery
         .filter { it => it.id === id }
@@ -24,7 +24,7 @@ class GenreRepository {
         .result
         .headOption)
 
-  def all(): Future[Seq[CityType]] =
+  def all(): Future[Seq[SityType]] =
     db.run(
       CityQuery
         .result
@@ -32,13 +32,13 @@ class GenreRepository {
 
 }
 
-private[db] class CityTypes(tag: Tag) extends Table[CityType](tag, "City") {
+private[db] class SityTypes(tag: Tag) extends Table[SityType](tag, "City") {
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 
-  def City: Rep[String] = column[String]("Name")
+  def Sity: Rep[String] = column[String]("Sity")
 
-  def * : ProvenShape[CityType] = (id, City) <> (CityType.tupled, CityType.unapply) // scalastyle:ignore
+  def * : ProvenShape[SityType] = (id, Sity) <> (SityType.tupled, SityType.unapply) // scalastyle:ignore
 
 }
 

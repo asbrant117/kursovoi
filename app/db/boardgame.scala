@@ -40,13 +40,13 @@ private[db] class BoardgameTypes(tag: Tag) extends Table[BoardgameType](tag, "Ge
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 
-  def  name: Rep[String] = column[String]("Name")
+  def  name: Rep[String] = column[String]("name")
 
-  def genreId: Rep[Int] = column[Int]("id")
+  def genreId: Rep[Int] = column[Int]("genreId")
 
-  def countryId: Rep[Int] = column[Int]("id")
+  def countryId: Rep[Int] = column[Int]("countryId")
 
-  def rating: Rep[Int] = column[Int]("id")
+  def rating: Rep[Int] = column[Int]("rating")
 
 
 

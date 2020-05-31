@@ -36,7 +36,7 @@ private[db] class GenreTypes(tag: Tag) extends Table[GenreType](tag, "Genre") {
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 
-  def genre: Rep[String] = column[String]("Name")
+  def genre: Rep[String] = column[String]("genre")
 
   def * : ProvenShape[GenreType] = (id, genre) <> (GenreType.tupled, GenreType.unapply) // scalastyle:ignore
 

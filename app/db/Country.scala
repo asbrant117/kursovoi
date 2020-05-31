@@ -36,7 +36,7 @@ private[db] class CountryTypes(tag: Tag) extends Table[CountryType](tag, "Countr
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 
-  def country: Rep[String] = column[String]("Name")
+  def country: Rep[String] = column[String]("country")
 
   def * : ProvenShape[CountryType] = (id, country) <> (CountryType.tupled, CountryType.unapply) // scalastyle:ignore
 
