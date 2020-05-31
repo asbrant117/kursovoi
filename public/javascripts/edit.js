@@ -1,14 +1,23 @@
+
+
+/* html файл редактирования edit.scala.html */
+
+
 $(document).ready(function() {
-  console.log("Loaded")
+  console.log("Loaded");
 
   // Установливаем обработчик клика на поиск
   $("#searchBtn").click(function() {
     let id = $("#inputId").val()
-    console.log("Clicked with id " + id)
-    $.getJSON( "/api/country?id=" + id, function(data) {
+    console.log("Clicked with id " + id);
+
+    // делаем запрос
+    $.getJSON("/api/country?id=" + id, /* что сделаем, при успешном ответе -> */ function(data) {
       console.log(data);
+      /* data.name , name должен совпадать с Json именем поля profileWrite в JsonController */
+      /* #firstName , firstName должен совпадать с id в html  ищи ctrl+f id="firstName" */
       $("#firstName").val(data.name)
-      $("#lastName").val(data.surname)
+      $("#population").val(data.population)
     });
   });
 
@@ -18,7 +27,7 @@ $(document).ready(function() {
       {
         id: parseInt($("#inputId").val(), 10),
         name: $("#firstName").val(),
-        surname: parseInt($("#lastName").val(), 10)
+        surname: parseInt($("#population").val(), 10)
       },
       function(response) {
         alert(response.result);

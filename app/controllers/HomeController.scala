@@ -4,8 +4,9 @@ import db.{UserProfile, UserProfileRepository}
 import javax.inject._
 import play.api._
 import play.api.mvc._
-import play.twirl.api.StringInterpolation
+import play.twirl.api.{Html, StringInterpolation}
 
+import scala.collection.immutable
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -50,7 +51,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
   }
 
   def all() = Action { implicit request: Request[AnyContent] =>
-    val profiles = List(
+    val profiles: immutable.Seq[UserProfile] = List(
       UserProfile(1, "Russia", 123123123),
       UserProfile(2, "Usa", 1941513),
       UserProfile(3, "France", 234525),
@@ -58,7 +59,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
       UserProfile(5, "Italy", 59595)
     )
 
-    val htmlProfiles = profiles.map { it =>
+    val htmlProfiles: List[Html] = profiles.map { it =>
       html"""
 <tr>
   <th scope="row">${it.id}</th>
@@ -74,7 +75,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
   <td>${it.Population}</td>
 </tr>
 """
-    }
+    }.toList
 
     Ok(views.html.list(htmlProfiles))
   }

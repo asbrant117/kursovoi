@@ -1,6 +1,6 @@
 package controllers
 
-import db.{UserProfile, UserProfileRepository}
+import db.{CountryType, UserProfile, UserProfileRepository}
 import javax.inject._
 import play.api.mvc._
 import play.api.libs.json.{JsPath, JsValue, Json, Reads, Writes}
@@ -14,7 +14,7 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
     Json.obj(
       "id" -> ext.id,
       "name" -> ext.Name,
-      "surname" -> ext.Population,
+      "population" -> ext.Population,
     )
   }
 
@@ -23,8 +23,20 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
     (JsPath \ "surname").read[Int]
     ) (UserProfile.apply _)
 
+  implicit val countryWrite: Writes[CountryType] = (ext: CountryType) => {
+    Json.obj(
+      "id" -> ext.id,
+      "country" -> ext.country
+    )
+  }
+
+  implicit val countryRead: Reads[CountryType] = ((JsPath \ "id").read[Int] and
+    (JsPath \ "country").read[String]
+    ) (CountryType.apply _)
+
   def country(id: Int): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(Json.toJson(UserProfile(id, "my name", 1234124)))
+    val profile = UserProfile(id, "my name", 1234124)
+    Ok(Json.toJson(profile))
   }
 
   def updateCountry(): Action[JsValue] = Action(parse.tolerantJson) { implicit request =>
