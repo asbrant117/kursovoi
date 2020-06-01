@@ -1,13 +1,13 @@
 package controllers
 
-import db.{UserProfile, UserProfileRepository}
+import db.{Boardgame, BoardgameRepository}
+import db.{GenreClass, GenreRepository}
 import javax.inject._
-import play.api._
 import play.api.mvc._
 import play.twirl.api.{Html, StringInterpolation}
 
 import scala.collection.immutable
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
 
 /**
@@ -15,23 +15,28 @@ import scala.concurrent.duration.Duration
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
-  val repo = new UserProfileRepository
+class GameboardController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
+  val repoBG = new BoardgameRepository
+  val repoG = new GenreRepository
 
   def index() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.index())
+  }
+
+  def edit2() = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.edit2())
   }
 
   def edit() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.edit())
   }
 
-  def country(id: Int) = Action { implicit request: Request[AnyContent] =>
-    val eventualMaybeUserProfile = repo.get(id)
-    val maybeUserProfile: Option[UserProfile] = Await.result(eventualMaybeUserProfile, Duration.Inf)
+  def Gameboard(id: Int) = Action { implicit request: Request[AnyContent] =>
+    val eventualMaybeUserProfile = repoBG.get(id)
+    val maybeUserProfile: Option[Boardgame] = Await.result(eventualMaybeUserProfile, Duration.Inf)
 
     if (maybeUserProfile.isDefined) {
-      println(maybeUserProfile.get.Name)
+      println(maybeUserProfile.get.id)
     } else {
       println("неверный ввод")
     }
@@ -39,40 +44,25 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
     Ok(views.html.index())
   }
 
-  def countryUpdate(id: Int, population: Int) = Action { implicit request: Request[AnyContent] =>
-
-
-    Await.result(repo.update(id, population), Duration.Inf)
-
-    val eventualMaybeUserProfile = repo.get(id)
-    val maybeUserProfile: Option[UserProfile] = Await.result(eventualMaybeUserProfile, Duration.Inf)
-
-    Ok(maybeUserProfile.toString)
-  }
-
   def all() = Action { implicit request: Request[AnyContent] =>
-    val profiles: immutable.Seq[UserProfile] = List(
-      UserProfile(1, "Russia", 123123123),
-      UserProfile(2, "Usa", 1941513),
-      UserProfile(3, "France", 234525),
-      UserProfile(4, "Germany", 14452),
-      UserProfile(5, "Italy", 59595)
-    )
 
-    val htmlProfiles: List[Html] = profiles.map { it =>
+    val gamesFuture = repoBG.all()
+    val games: Seq[Boardgame] = Await.result(gamesFuture, Duration.Inf)
+ 
+
+    val htmlProfiles: List[Html] = games.map { it =>
+
+      val genreFuture: Future[Option[GenreClass]] = repoG.get(it.genreId)
+      val genre: Option[GenreClass] = Await.result(genreFuture, Duration.Inf)
+
+
       html"""
 <tr>
   <th scope="row">${it.id}</th>
-  <td>${it.Name}</td>
-  <td>${it.Population}</td>
-  <td>${it.Name}</td>
-  <td>${it.Population}</td>
-  <td>${it.Name}</td>
-  <td>${it.Population}</td>
-  <td>${it.Name}</td>
-  <td>${it.Population}</td>
-  <td>${it.Name}</td>
-  <td>${it.Population}</td>
+  <td>${it.name}</td>
+  <td>${genre.get.genre}</td>
+  <td>${it.countryId}</td>
+  <td>${it.rating}</td>
 </tr>
 """
     }.toList

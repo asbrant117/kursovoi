@@ -7,7 +7,7 @@ import scala.concurrent.Future
 
 case class UserProfile(id: Int,
                        Name: String,
-                       Population: Int)
+                      )
 
 
 class UserProfileRepository {
@@ -28,12 +28,12 @@ class UserProfileRepository {
         .headOption)
 
 
-  def update(id: Int, Population: Int): Future[Int] =
-    db.run(
-      userProfileQuery
-        .filter(_.id === id)
-        .map(_.Population)
-        .update(Population))
+//  def update(id: Int, Population: Int): Future[Int] =
+//    db.run(
+//      userProfileQuery
+//        .filter(_.id === id)
+//        .map(_.Population)
+//        .update(Population))
 
 
   def all(): Future[Seq[UserProfile]] =
@@ -50,9 +50,7 @@ private[db] class UserProfiles(tag: Tag) extends Table[UserProfile](tag, "Countr
 
   def Name: Rep[String] = column[String]("Name")
 
-  def Population: Rep[Int] = column[Int]("Population")
-
-  def * : ProvenShape[UserProfile] = (id, Name, Population) <> (UserProfile.tupled, UserProfile.unapply) // scalastyle:ignore
+  def * : ProvenShape[UserProfile] = (id, Name) <> (UserProfile.tupled, UserProfile.unapply) // scalastyle:ignore
 
 }
 

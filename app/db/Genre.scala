@@ -5,18 +5,18 @@ import slick.lifted.ProvenShape
 import DB.db
 import scala.concurrent.Future
 
-case class GenreType(id: Int,
-                       genre: String)
+case class GenreClass(id: Int,
+                      genre: String)
 
 
 class GenreRepository {
 
   val GenreQuery: TableQuery[GenreTypes] = TableQuery[GenreTypes]
 
-  def insert(user: GenreType): Future[Int] =
+  def insert(user: GenreClass): Future[Int] =
     db.run(GenreQuery += user)
 
-  def get(id: Int): Future[Option[GenreType]] =
+  def get(id: Int): Future[Option[GenreClass]] =
     db.run(
       GenreQuery
         .filter { it => it.id === id }
@@ -24,7 +24,7 @@ class GenreRepository {
         .result
         .headOption)
 
-  def all(): Future[Seq[GenreType]] =
+  def all(): Future[Seq[GenreClass]] =
     db.run(
       GenreQuery
         .result
@@ -32,13 +32,13 @@ class GenreRepository {
 
 }
 
-private[db] class GenreTypes(tag: Tag) extends Table[GenreType](tag, "Genre") {
+private[db] class GenreTypes(tag: Tag) extends Table[GenreClass](tag, "Genre") {
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 
   def genre: Rep[String] = column[String]("genre")
 
-  def * : ProvenShape[GenreType] = (id, genre) <> (GenreType.tupled, GenreType.unapply) // scalastyle:ignore
+  def * : ProvenShape[GenreClass] = (id, genre) <> (GenreClass.tupled, GenreClass.unapply) // scalastyle:ignore
 
 }
 

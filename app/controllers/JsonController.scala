@@ -14,13 +14,12 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
     Json.obj(
       "id" -> ext.id,
       "name" -> ext.Name,
-      "population" -> ext.Population,
+
     )
   }
 
   implicit val profileRead: Reads[UserProfile] = ((JsPath \ "id").read[Int] and
-    (JsPath \ "name").read[String] and
-    (JsPath \ "surname").read[Int]
+    (JsPath \ "name").read[String]
     ) (UserProfile.apply _)
 
   implicit val countryWrite: Writes[CountryType] = (ext: CountryType) => {
@@ -35,7 +34,7 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
     ) (CountryType.apply _)
 
   def country(id: Int): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    val profile = UserProfile(id, "my name", 1234124)
+    val profile = UserProfile(id, "my name")
     Ok(Json.toJson(profile))
   }
 

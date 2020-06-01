@@ -5,22 +5,22 @@ import slick.lifted.ProvenShape
 import DB.db
 import scala.concurrent.Future
 
-case class BoardgameType(id: Int,
-                         name: String,
-                         genreId: Int,
-                         countryId: Int,
-                         rating: Int
-                        )
+case class Boardgame(id: Int,
+                     name: String,
+                     genreId: Int,
+                     countryId: Int,
+                     rating: Int
+                    )
 
 
-class Boardgameitory {
+class BoardgameRepository {
 
   val BoardgameQuery: TableQuery[BoardgameTypes] = TableQuery[BoardgameTypes]
 
-  def insert(user: BoardgameType): Future[Int] =
+  def insert(user: Boardgame): Future[Int] =
     db.run(BoardgameQuery += user)
 
-  def get(id: Int): Future[Option[BoardgameType]] =
+  def get(id: Int): Future[Option[Boardgame]] =
     db.run(
       BoardgameQuery
         .filter { it => it.id === id }
@@ -28,7 +28,7 @@ class Boardgameitory {
         .result
         .headOption)
 
-  def all(): Future[Seq[BoardgameType]] =
+  def all(): Future[Seq[Boardgame]] =
     db.run(
       BoardgameQuery
         .result
@@ -36,11 +36,11 @@ class Boardgameitory {
 
 }
 
-private[db] class BoardgameTypes(tag: Tag) extends Table[BoardgameType](tag, "Boardgame") {
+private[db] class BoardgameTypes(tag: Tag) extends Table[Boardgame](tag, "Boardgame") {
 
   def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
 
-  def  name: Rep[String] = column[String]("name")
+  def name: Rep[String] = column[String]("name")
 
   def genreId: Rep[Int] = column[Int]("genreId")
 
@@ -49,8 +49,7 @@ private[db] class BoardgameTypes(tag: Tag) extends Table[BoardgameType](tag, "Bo
   def rating: Rep[Int] = column[Int]("rating")
 
 
-
-  def * : ProvenShape[BoardgameType] = (id, name, genreId, countryId,rating) <> (BoardgameType.tupled, BoardgameType.unapply) // scalastyle:ignore
+  def * : ProvenShape[Boardgame] = (id, name, genreId, countryId, rating) <> (Boardgame.tupled, Boardgame.unapply) // scalastyle:ignore
 
 }
 
