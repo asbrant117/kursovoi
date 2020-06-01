@@ -9,13 +9,10 @@ GET         /edit2                controllers.GameboardController.edit2
 GET         /edit                 controllers.GameboardController.edit
 GET         /all                  controllers.GameboardController.all
 
-GET         /api/country          controllers.JsonController.country(id: Int)
 GET         /api/boardgame        controllers.JsonController.boardgame(id: Int)
-POST        /api/country          controllers.JsonController.updateCountry()
 POST        /api/boardgame        controllers.JsonController.updateBoardgame()
 
-GET         /country              controllers.GameboardController.Gameboard(id: Int)
-#GET         /country/update        controllers.GameboardController.GameboardUpdate(id: Int, population: Int)
+GET         /boardgame              controllers.GameboardController.Gameboard(id: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file         controllers.Assets.versioned(path="/public", file: Asset)
