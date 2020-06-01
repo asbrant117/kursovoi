@@ -12,12 +12,14 @@ $(document).ready(function() {
     console.log("Clicked with id " + id);
 
     // делаем запрос
-    $.getJSON("/api/country?id=" + id, /* что сделаем, при успешном ответе -> */ function(data) {
+    $.getJSON("/api/boardgame?id=" + id, /* что сделаем, при успешном ответе -> */ function(data) {
       console.log(data);
       /* data.name , name должен совпадать с Json именем поля profileWrite в JsonController */
       /* #firstName , firstName должен совпадать с id в html  ищи ctrl+f id="firstName" */
-      $("#firstName").val(data.name)
-      $("#population").val(data.population)
+      $("#boardGameName").val(data.name)
+      $("#genreName").val(data.genre)
+      $("#countryName").val(data.country)
+      $("#ratingValue").val(data.rating)
     });
   });
 

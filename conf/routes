@@ -10,6 +10,7 @@ GET         /edit                  controllers.GameboardController.edit
 GET         /all                   controllers.GameboardController.all
 
 GET         /api/country           controllers.JsonController.country(id: Int)
+GET         /api/boardgame       controllers.JsonController.boardgame(id: Int)
 POST        /api/country           controllers.JsonController.updateCountry()
 
 GET         /country               controllers.GameboardController.Gameboard(id: Int)

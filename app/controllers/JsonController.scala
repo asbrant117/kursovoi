@@ -14,7 +14,6 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
     Json.obj(
       "id" -> ext.id,
       "name" -> ext.Name,
-
     )
   }
 
@@ -33,9 +32,17 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
     (JsPath \ "country").read[String]
     ) (CountryType.apply _)
 
+  implicit val boardgameRead: Reads[BoardgameJson] = Json.reads[BoardgameJson]
+  implicit val boardgameWrites: Writes[BoardgameJson] = Json.writes[BoardgameJson]
+
   def country(id: Int): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     val profile = UserProfile(id, "my name")
     Ok(Json.toJson(profile))
+  }
+
+  def boardgame(id: Int): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    val boardgame = BoardgameJson(id, "genre1","name1","country1", 3)
+    Ok(Json.toJson(boardgame))
   }
 
   def updateCountry(): Action[JsValue] = Action(parse.tolerantJson) { implicit request =>
@@ -48,3 +55,5 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
     }
   }
 }
+
+case class BoardgameJson(id: Int, genre: String, name: String, country: String, rating: Int)
