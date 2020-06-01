@@ -41,7 +41,7 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
   }
 
   def boardgame(id: Int): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    val boardgame = BoardgameJson(id, "genre1","name1","country1", 3)
+    val boardgame = BoardgameJson(id, "genre1", "name1", "country1", 3)
     Ok(Json.toJson(boardgame))
   }
 
@@ -49,6 +49,16 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
     println(request.body)
     val profile = request.body.validate[UserProfile].get
     if (profile.id % 2 == 0) {
+      Ok(Json.obj("result" -> "Сохранено"))
+    } else {
+      Ok(Json.obj("result" -> "Недопустимый формат"))
+    }
+  }
+
+  def updateBoardgame(): Action[JsValue] = Action(parse.tolerantJson) { implicit request =>
+    println(request.body)
+    val game = request.body.validate[BoardgameJson].get
+    if (game.id % 2 == 0) {
       Ok(Json.obj("result" -> "Сохранено"))
     } else {
       Ok(Json.obj("result" -> "Недопустимый формат"))

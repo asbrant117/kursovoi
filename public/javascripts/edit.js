@@ -25,11 +25,13 @@ $(document).ready(function() {
 
   // устанавливаем обработчик сохранения
   $("#save").click(function() {
-    $.postJSON("api/country",
+    $.postJSON("/api/boardgame",
       {
         id: parseInt($("#inputId").val(), 10),
-        name: $("#firstName").val(),
-        surname: parseInt($("#population").val(), 10)
+        name: $("#boardGameName").val(),
+        genre: $("#genreName").val(),
+        country: $("#countryName").val(),
+        rating: parseInt($("#ratingValue").val(), 10)
       },
       function(response) {
         alert(response.result);
@@ -40,3 +42,4 @@ $(document).ready(function() {
     );
   });
 });
+
