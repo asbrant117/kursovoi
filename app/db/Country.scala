@@ -5,16 +5,21 @@ import slick.lifted.ProvenShape
 import DB.db
 import scala.concurrent.Future
 
-case class CountryType(    id: Int,
-                       country : String)
+case class CountryType(id: Int,
+                       country: String)
 
 
 class CountryRepository {
 
   val CountryQuery: TableQuery[CountryTypes] = TableQuery[CountryTypes]
 
-  def insert(user: CountryType): Future[Int] =
-    db.run(CountryQuery += user)
+  def insert(user: CountryType): Future[CountryType] =
+    db.run {
+      (CountryQuery
+        returning CountryQuery.map(_.id)
+        into ((item, id) => item.copy(id = id))
+        ) += user
+    }
 
   def get(id: Int): Future[Option[CountryType]] =
     db.run(
@@ -30,7 +35,17 @@ class CountryRepository {
         .result
     )
 
+  def find(name: String): Future[Option[CountryType]] =
+    db.run {
+      CountryQuery
+        .filter { it => it.country.like(name)}
+        .take(1)
+        .result
+        .headOption
+    }
+
 }
+
 
 private[db] class CountryTypes(tag: Tag) extends Table[CountryType](tag, "Country") {
 

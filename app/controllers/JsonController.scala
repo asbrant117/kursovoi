@@ -35,7 +35,16 @@ class JsonController @Inject()(val controllerComponents: ControllerComponents) e
 
   def updateBoardgame(): Action[JsValue] = Action(parse.tolerantJson) { implicit request =>
     println(request.body)
-    val game = request.body.validate[BoardgameJson].get
+    val gameNetwork = request.body.validate[BoardgameJson].get
+
+    val gameFuture = repoBG.get(gameNetwork.id)
+    val game: Boardgame = Await.result(gameFuture, Duration.Inf).get
+
+    val newGame = game.copy(name = gameNetwork.name, rating = gameNetwork.rating)
+    val futureUpdate = repoBG.update(newGame)
+    Await.result(futureUpdate, Duration.Inf)
+
+
     if (game.id % 2 == 0) {
       Ok(Json.obj("result" -> "Сохранено"))
     } else {

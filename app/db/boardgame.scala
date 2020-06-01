@@ -34,6 +34,12 @@ class BoardgameRepository {
         .result
     )
 
+  def update(boardgame: Boardgame): Future[Int] =
+      db.run(
+        BoardgameQuery
+          .filter(_.id === boardgame.id)
+          .update(boardgame))
+
 }
 
 private[db] class BoardgameTypes(tag: Tag) extends Table[Boardgame](tag, "Boardgame") {
